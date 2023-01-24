@@ -3,6 +3,7 @@ import json
 import random
 import argparse
 import os
+import sys
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
@@ -11,7 +12,7 @@ if __name__ == '__main__':
     args = parser.parse_args()
     dataset = args.dataset
     fold_id = args.fold_id
-
+    
     data_future = pd.read_csv(f'dataset/{dataset}_future.csv')
     data_history = pd.read_csv(f'dataset/{dataset}_history.csv')
     data = pd.concat([data_history, data_future])
@@ -20,10 +21,11 @@ if __name__ == '__main__':
     user_num = len(user)
     random.shuffle(user)
     user = [str(user_id) for user_id in user]
-
+    
     train_user = user[:int(user_num*4/5*0.9)]
     val_user = user[int(user_num*4/5*0.9):int(user_num*4/5)]
     test_user = user[int(user_num*4/5):]
+    
 
     item_num = max(data['product_id'].tolist())+1
     keyset_dict = dict()

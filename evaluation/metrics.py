@@ -1,5 +1,6 @@
 import numpy as np
 import math
+import sys
 #note ground truth is vector, rank_list is the sorted item index.
 
 def label2vec(label_list, input_size):
@@ -100,3 +101,86 @@ def get_precision_recall_Fscore(groundtruth, pred):
     else:
         F = 0
     return precision, recall, F, correct
+
+
+def get_Fairness(exp0, exp1, exp2, u0, u1, u2):   
+
+    DTR01 = abs((exp0/u0)/(exp1/u1) - 1)
+    DTR02 = abs((exp0/u0)/(exp2/u2) - 1)
+    DTR12 = abs((exp1/u1)/(exp2/u2) - 1)
+    fairness = (DTR01 + DTR02 + DTR12)/3
+    return fairness
+
+'''
+def get_Exposure(pred_list, item_group, k):
+
+    count = 0
+    exp0 = 0
+    exp1 = 0
+    exp2 = 0
+    for pred in pred_list:
+        if count >= k:
+            break
+        if pred in item_group['group0']:
+            exp0 += (1)/math.log2(count + 1 + 1)
+        elif pred in item_group['group1']:
+            exp1 += (1)/math.log2(count+1+1)
+        elif pred in item_group['group2']:
+            exp2 += (1)/math.log2(count+1+1)
+        count += 1
+    return exp0, exp1, exp2
+
+'''
+def get_Exposure(pred_list, item_group, k):
+
+    count = 0
+    exp0 = 0
+    exp1 = 0
+    exp2 = 0
+    for pred in pred_list:
+        if count >= k:
+            break
+        if pred in item_group['group0']:
+            exp0 += 1
+        elif pred in item_group['group1']:
+            exp1 += 1
+        else:
+            exp2 += 1
+        count += 1
+    return exp0, exp1, exp2
+
+
+'''
+def get_Utility(item_group, item_count, user):
+
+    u0 = 0
+    u1 = 0
+    u2 = 0
+    for item in item_count[user].keys():
+        if int(item) in item_group['group0']:
+            u0 += item_count[user][item]      
+        elif int(item) in item_group['group1']:
+            u1 += item_count[user][item]      
+        elif int(item) in item_group['group2']:
+            u2 += item_count[user][item]  
+    return u0, u1, u2
+'''
+
+def get_Utility(item_group, truth_list, pred_rank_list, k):
+    count = 0
+    u0 = 0
+    u1 = 0
+    u2 = 0
+    for pred in pred_rank_list:
+        if count >= k:
+            break
+        if pred in truth_list:
+            if pred in item_group['group0']:
+                u0 += 1      
+            elif pred in item_group['group1']:
+                u1 += 1     
+            elif pred in item_group['group2']:
+                u2 += 1
+        count += 1
+    return u0, u1, u2
+

@@ -16,10 +16,13 @@ if __name__ == '__main__':
     parser.add_argument('--dataset', type=str, default='dunnhumby', help='Dataset')
     parser.add_argument('--fold_id', type=int, default=0, help='x')
     parser.add_argument('--best_model_path', type=str, required=True)
+    
     args = parser.parse_args()
+
     dataset = args.dataset
     fold = args.fold_id
-    model_path = parser.best_model_path
+    model_path = args.best_model_path
+
     history_path = f'../../jsondata/{dataset}_history.json'
     future_path = f'../../jsondata/{dataset}_future.json'
     keyset_path = f'../../keyset/{dataset}_keyset_{fold}.json'
