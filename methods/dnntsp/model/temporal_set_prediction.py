@@ -5,10 +5,10 @@ import dgl
 import sys
 sys.path.append("..")
 
-from model.weighted_graph_conv import stacked_weighted_GCN_blocks, weighted_GCN
-from model.masked_self_attention import masked_self_attention
-from model.global_gated_update import global_gated_update
-from model.aggregate_nodes_temporal_feature import aggregate_nodes_temporal_feature
+from dnntsp.model.weighted_graph_conv import stacked_weighted_GCN_blocks, weighted_GCN
+from dnntsp.model.masked_self_attention import masked_self_attention
+from dnntsp.model.global_gated_update import global_gated_update
+from dnntsp.model.aggregate_nodes_temporal_feature import aggregate_nodes_temporal_feature
 
 
 class temporal_set_prediction(nn.Module):
@@ -39,7 +39,7 @@ class temporal_set_prediction(nn.Module):
         self.global_gated_update = global_gated_update(items_total=items_total,
                                                        item_embedding=self.item_embedding)
 
-        self.fc_output = nn.Linear(item_embedding_dim, 1)
+        self.fc_output = nn.Linear(item_embedding_dim, 1) #linear transformation
 
     def forward(self, graph: dgl.DGLGraph, nodes_feature: torch.Tensor, edges_weight: torch.Tensor,
                 lengths: torch.Tensor, nodes: torch.Tensor, users_frequency: torch.Tensor):
@@ -63,9 +63,10 @@ class temporal_set_prediction(nn.Module):
         nodes_output = self.aggregate_nodes_temporal_feature(graph, lengths, nodes_output)
 
         # (batch_size, items_total, item_embed_dim)
-        nodes_output = self.global_gated_update(graph, nodes, nodes_output)
-
+        nodes_output = self.global_gated_update(graph, nodes, nodes_output) #torch.Size([1, 13897, 32])
+        
         # (batch_size, items_total)
-        output = self.fc_output(nodes_output).squeeze(dim=-1)
 
+        output = self.fc_output(nodes_output).squeeze(dim=-1) #torch.Size([1, 13897])
+        
         return output

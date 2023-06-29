@@ -7,7 +7,7 @@ import models
 import procedure
 from new_utils import *
 import warnings
-
+import sys
 warnings.filterwarnings('ignore')
 # Parameters
 # ###########################
@@ -76,8 +76,8 @@ dataset = config.dataset
 foldk = config.foldk
 # output_dir = temp_dir + "/adj_matrix"
 
-data_file = f'dataset/{dataset}_merged.json'
-keyset_path = f'../../keyset/{dataset}_keyset_{foldk}.json'
+data_file = f'/ivi/ilps/personal/yliu10/NBR-fairness/mergeddataset/{dataset}_merged.json'
+keyset_path = f'/ivi/ilps/personal/yliu10/NBR-fairness/keyset/{dataset}_keyset_{foldk}.json'
 
 # data_dir = config.data_dir
 output_dir = config.output_dir
@@ -112,7 +112,9 @@ print(" + Total validating sequences: ", nb_validate)
 
 # testing_instances = utils.read_file_as_lines(testing_file)
 testing_instances, test_uids = get_instances(data_file, keyset_path, mode='test')
-nb_test = len(testing_instances)
+#testing_instances: history baskets of test_user
+
+nb_test = len(testing_instances) #number of test users
 print(" + Total testing sequences: ", nb_test)
 
 # Create dictionary
@@ -204,7 +206,8 @@ if config.prediction_mode or config.tune_mode:
 
             print("@Start generating prediction")
             pred_path = f'{output_dir}/pred/{dataset}_pred{foldk}.json'
+            pred_rel_path = f'{output_dir}/pred/{dataset}_rel{foldk}.json'
             procedure.generate_prediction(net, test_generator, total_test_batches, config.display_step, 
-                        rev_item_dict, pred_path)
+                        rev_item_dict, pred_path, pred_rel_path)
         
     tf.reset_default_graph()

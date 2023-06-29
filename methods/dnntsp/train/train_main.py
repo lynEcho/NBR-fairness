@@ -5,18 +5,18 @@ import sys
 import os
 import shutil
 sys.path.append("..")
-from utils.load_config import get_attribute
-from utils.data_container import get_data_loader
-from utils.loss import BPRLoss, WeightMSELoss
-from utils.util import get_class_weights
+from dnntsp.utils.load_config import get_attribute
+from dnntsp.utils.data_container import get_data_loader
+from dnntsp.utils.loss import BPRLoss, WeightMSELoss
+from dnntsp.utils.util import get_class_weights
 
-from model.temporal_set_prediction import temporal_set_prediction
-from train.train_model import train_model
+from dnntsp.model.temporal_set_prediction import temporal_set_prediction
+from dnntsp.train.train_model import train_model
 
 
 def create_model():
 
-    print(f"{get_attribute('data')}/{get_attribute('save_model_folder')}")
+    print(f"{get_attribute('data')}/{get_attribute('save_model_folder')}") #get attribute from config.json
 
     model = temporal_set_prediction(items_total=get_attribute('items_total'),
                                     item_embedding_dim=get_attribute('item_embed_dim'))
@@ -56,7 +56,7 @@ def train():
     loss_func = create_loss(loss_type=get_attribute('loss_function'))
 
     # 训练
-    model_folder = f"../save_model_folder/{get_attribute('data')}/{get_attribute('save_model_folder')}"
+    model_folder = f"/ivi/ilps/personal/yliu10/NBR-fairness/methods/dnntsp/save_model_folder4/{get_attribute('data')}/{get_attribute('save_model_folder')}"
     tensorboard_folder = f"../runs/{get_attribute('data')}/{get_attribute('save_model_folder')}"
 
     shutil.rmtree(model_folder, ignore_errors=True)

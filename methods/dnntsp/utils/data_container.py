@@ -8,9 +8,9 @@ import numpy as np
 from sklearn.preprocessing import normalize
 import sys
 sys.path.append("..")
-from utils.util import convert_to_gpu
-from utils.util import get_truth_data
-from utils.load_config import get_attribute
+from dnntsp.utils.util import convert_to_gpu
+from dnntsp.utils.util import get_truth_data
+from dnntsp.utils.load_config import get_attribute
 
 
 class SetDataset(Dataset):

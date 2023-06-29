@@ -79,10 +79,12 @@ class Beacon(Model):
                 next_item_probs = tf.nn.sigmoid(tf.matmul(h_T, W_H))
                 logits = (1.0 - self.alpha) * next_item_probs + self.alpha * self.encode_basket_graph(next_item_probs, tf.constant(0.0))
 
+
             with tf.name_scope("Loss"):
                 self.loss = self.compute_loss(logits, self.y)
 
-                self.predictions = tf.nn.sigmoid(logits)
+                self.predictions = tf.nn.sigmoid(logits) #this is what I want
+                
                 self.top_k_values, self.top_k_indices = tf.nn.top_k(self.predictions, 200)
                 self.recall_at_k = self.compute_recall_at_topk(top_k)
 
@@ -144,7 +146,7 @@ class Beacon(Model):
 
     def generate_prediction(self, s, s_length):
         bseq_indices, bseq_values = self.get_sparse_tensor_info(s, True)
-        return self.session.run([self.top_k_values, self.top_k_indices],
+        return self.session.run([self.top_k_values, self.top_k_indices, self.predictions],
                                  feed_dict={self.bseq_length: s_length, self.bseq.indices: bseq_indices, self.bseq.values: bseq_values})
 
     def encode_basket_graph(self, binput, beta, is_sparse=False):

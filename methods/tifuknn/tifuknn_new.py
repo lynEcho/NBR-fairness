@@ -105,6 +105,7 @@ def vec2label_list(pred_vec):
 
 def merge_history(sum_history_test, test_key_set, training_sum_history_test, training_key_set, index, alpha):
     merged_history = {}
+    pred_rel_dict = {}
     for test_key_id in range(len(test_key_set)):
         test_key = test_key_set[test_key_id]
         test_history = sum_history_test[test_key]
@@ -115,11 +116,17 @@ def merge_history(sum_history_test, test_key_set, training_sum_history_test, tra
 
         sum_training_history = sum_training_history/len(index[test_key_id])
 
-        merge = test_history*alpha + sum_training_history*(1-alpha)
-        merge = vec2label_list(merge) #transfer to label list
+        merge = test_history*alpha + sum_training_history*(1-alpha) #pred_rel
+
+        assert all(0 <= i <= 1 for i in merge.tolist())
+        
+        pred_rel_dict[test_key] = merge.tolist() 
+
+        merge = vec2label_list(merge) #transfer to label list, pred
+
         merged_history[test_key] = merge
 
-    return merged_history
+    return merged_history, pred_rel_dict
 
 def evaluate(data_history, training_key_set, test_key_set, input_size, group_size,
              within_decay_rate, group_decay_rate, num_nearest_neighbors, alpha):
@@ -137,10 +144,10 @@ def evaluate(data_history, training_key_set, test_key_set, input_size, group_siz
     neighbour_index, distance = KNN(temporal_decay_sum_history_test, temporal_decay_sum_history_training,
                           num_nearest_neighbors)
 
-    sum_history = merge_history(temporal_decay_sum_history_test, test_key_set, temporal_decay_sum_history_training,
+    sum_history, pred_rel_dict = merge_history(temporal_decay_sum_history_test, test_key_set, temporal_decay_sum_history_training,
                                 training_key_set, neighbour_index, alpha)
 
-    return sum_history
+    return sum_history, pred_rel_dict
 
 def main(argv):
     # param setting
@@ -165,23 +172,30 @@ def main(argv):
     keyset_val = keyset['val']
     keyset_test = keyset['test']
 
-    predicted_test = evaluate(data_history, keyset_train, keyset_test, input_size,
+    predicted_test, pred_rel_test = evaluate(data_history, keyset_train, keyset_test, input_size,
                                 group_size, within_decay_rate, group_decay_rate,
                                 num_nearest_neighbors, alpha)
-
+    '''
     predicted_val = evaluate(data_history, keyset_train, keyset_val, input_size,
                                 group_size, within_decay_rate, group_decay_rate,
                                 num_nearest_neighbors, alpha)
+    '''
     pred_dict = dict()
-    pred_dict.update(predicted_val)
+    pred_rel_dict = dict()
+    #pred_dict.update(predicted_val)
     pred_dict.update(predicted_test)
+    pred_rel_dict.update(pred_rel_test)
 
     print('Num. of top: ', topk)
     dataset_name = keyset_file.split('_')[0].split('/')[-1]
     keyset_ind = keyset_file.split('_')[-1].split('.')[0]
     pred_path = dataset_name + '_pred'+keyset_ind+'.json'
+    pred_rel_path = dataset_name + '_rel'+keyset_ind+'.json'
+
     with open(pred_path, 'w') as f:
         json.dump(pred_dict, f)
+    with open(pred_rel_path, 'w') as f:
+        json.dump(pred_rel_dict, f)
 
 
 if __name__ == '__main__':

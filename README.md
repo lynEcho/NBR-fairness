@@ -1,6 +1,5 @@
 # Source Code and Appendix for "A Next Basket Recommendation Reality Check"
 
-Hi this is a project by Yuanna!
 
 ## Required packages
 To run our preprocessing, data splitting, evaluation scripts, Pandas, Numpy and Python >= 3.6 are required.

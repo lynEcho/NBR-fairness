@@ -1,6 +1,8 @@
 import numpy as np
 import math
 import sys
+from numpy.core.fromnumeric import argsort
+
 #note ground truth is vector, rank_list is the sorted item index.
 
 def label2vec(label_list, input_size):
@@ -184,3 +186,33 @@ def get_Utility(item_group, truth_list, pred_rank_list, k):
         count += 1
     return u0, u1, u2
 
+
+
+def get_Unfair(truth, pred, size, att, rel):
+    
+    for pos, index in enumerate(pred[:size]): #0, 2579
+        att[index] = att[index] + pos_bias(pos+1, size, 0.5)
+        #att[index] = att[index] + 1
+        if index in truth:
+            rel[index] = rel[index] + 1
+
+    return att, rel
+
+def pos_bias(pos: int, k: int, prob: float) -> float:
+    """
+    Receives a position and calculates the bias of said position. It will calculate
+    only for the first k subjects, after k, the bias will be 0.
+
+    Parameters
+    ----------
+    pos : integer
+        Position
+    k : integer
+        Amount of top subjects to consider for calculations
+    prob : float
+        Probability that any subject will be chosen
+    """
+    if pos > k:
+        return 0
+    else:
+        return prob * pow(1-prob, pos-1)

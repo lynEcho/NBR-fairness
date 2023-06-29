@@ -9,8 +9,8 @@ from tensorboardX import SummaryWriter
 import sys
 sys.path.append("..")
 
-from utils.util import save_model, convert_to_gpu, convert_all_data_to_gpu
-from utils.metric import get_metric
+from dnntsp.utils.util import save_model, convert_to_gpu, convert_all_data_to_gpu
+from dnntsp.utils.metric import get_metric
 
 from tqdm import tqdm
 import warnings
@@ -77,7 +77,8 @@ def train_model(model: nn.Module,
 
                 with torch.set_grad_enabled(name == 'train'):
                     # (B, N)
-                    output = model(g, nodes_feature, edges_weight, lengths, nodes, users_frequency)
+                    output = model(g, nodes_feature, edges_weight, lengths, nodes, users_frequency) #output is possibility (6)
+                             
                     loss = loss_func(output, truth_data.float())
                     total_loss += loss.cpu().data.numpy()
                     if name == "train":

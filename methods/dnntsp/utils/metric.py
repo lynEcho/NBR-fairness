@@ -4,7 +4,7 @@ from tqdm import tqdm
 import sys
 sys.path.append("..")
 
-from utils.util import convert_all_data_to_gpu
+from dnntsp.utils.util import convert_all_data_to_gpu
 import datetime
 
 

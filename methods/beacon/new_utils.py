@@ -136,13 +136,14 @@ def create_sparse_matrix(pairs, NB_ITEMS):
 
     return sp.csc_matrix(adj_matrix, dtype="float32")
 
+# test_generator = seq_batch_generator(testing_instances, item_dict, config.batch_size, False, uids=test_uids)
 
 def seq_batch_generator(raw_lines, item_dict, batch_size=32, is_train=True, uids=None):
     total_batches = compute_total_batches(len(raw_lines), batch_size)
 
     O = []
-    S = []
-    L = []
+    S = [] #
+    L = [] #
     Y = []
     U = []
 

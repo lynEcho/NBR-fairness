@@ -31,7 +31,7 @@ foldk = config.foldk
 output_dir = f"temp_result/{dataset}_{foldk}_adj_matrix"
 
 data_file = f'{data_dir}/{dataset}_merged.json'
-keyset_path = f'../../keyset/{dataset}_keyset_{foldk}.json'
+keyset_path = f'/ivi/ilps/personal/yliu10/NBR-fairness/keyset/{dataset}_keyset_{foldk}.json'
 print("***************************************************************************************")
 print("Output Dir: " + output_dir)
 

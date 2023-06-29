@@ -5,7 +5,7 @@ import torch.nn.utils.rnn as rnn_utils
 import sys
 sys.path.append("..")
 
-from utils.load_config import get_attribute
+from dnntsp.utils.load_config import get_attribute
 
 
 # convert data from cpu to gpu, accelerate the running speed
