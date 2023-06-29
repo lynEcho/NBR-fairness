@@ -1,11 +1,9 @@
-import tensorflow as tf
-import numpy as np
-
 import sys
 import utils
 import time
 import json
-
+import tensorflow as tf
+import numpy as np
 
 def train_network(sess, net, train_generator, validate_generator, nb_epoch, 
                   total_train_batches, total_validate_batches, display_step,
@@ -179,19 +177,25 @@ def tune(net, data_generator, total_batches, display_step, output_file):
     f.write(str(avg_val_recall) + "\n")
     f.close()
 
-
-def generate_prediction(net, data_generator, total_test_batches, display_step, inv_item_dict, output_file):
+def generate_prediction(net, data_generator, total_test_batches, display_step, inv_item_dict, output_file, pred_rel_path):
     # f = open(output_file, "w")
-
     pred_dict = dict()
+    pred_rel_dict = dict()
     for batch_id, data in data_generator:
-        values, indices = net.generate_prediction(data['S'], data['L'])
+    
+        values, indices, predictions = net.generate_prediction(data['S'], data['L'])
+
         uids = data['U']
 
-        for i, (seq_val, seq_ind, uid) in enumerate(zip(values, indices, uids)):
+        for i, (seq_val, seq_ind, uid, pred_rel) in enumerate(zip(values, indices, uids, predictions)): #for each user
+            
             pred_dict[uid] = []
+
             for idx in seq_ind:
                 pred_dict[uid].append(inv_item_dict[idx])
+            #
+            pred_rel_dict[uid] = pred_rel.tolist()
+            #assert len(pred_rel) == 13897
             # f.write("Target:" + data['O'][i])
             #
             # for (v, idx) in zip(seq_val, seq_ind):
@@ -206,6 +210,10 @@ def generate_prediction(net, data_generator, total_test_batches, display_step, i
     # f.close()
     with open(output_file, 'w') as f:
         json.dump(pred_dict, f)
+
+    with open(pred_rel_path, 'w') as f:
+        json.dump(pred_rel_dict, f)
+
     print(" ==> PREDICTION HAS BEEN DONE!")
 
 
