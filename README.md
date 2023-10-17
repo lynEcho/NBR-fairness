@@ -1,4 +1,4 @@
-# Source Code and Appendix for "A Next Basket Recommendation Reality Check"
+# Source Code and Appendix for "Measuring Item Fairness in Next Basket Recommendation: A Reproducibility Study"
 
 
 ## Required packages
@@ -12,15 +12,13 @@ To run the pubished methods' code, you can go to the original repository and che
 * A PDF file with the additional plots.
 
 ## Structure
-* preprocess: contains the script of dataset preprocessing.
-* dataset: contains the .csv format dataset after preprocessing.
+* preprocess: contains the script of dataset preprocessing. 
+* csvdata: contains the .csv format dataset after preprocessing.
 * jsondata: contains the .json format dataset after preprocessing, history baskets sequence and future basket are stored seperately.
 * mergedata: contains the .json format dataset after preprocessing, history baskets sequence and future basket are stored together.
 * methods: contains the source code of different NBR methods and the original url repository link of these methods.
-* keyset_fold.py: splits the datasets across users for train/validate/test.
 * evaluation: scripts for evaluation.
     * metrics.py: the general metrics.
-    * performance_gain.py: evaluate the contribution of repetition and exploration.
     * model_performance.py: evaluate the baskets' rep/expl ratio, and the recall, phr performance w.r.t. repetition and exploration.
 * appendix: contains a PDF file with the additional plots.
 
