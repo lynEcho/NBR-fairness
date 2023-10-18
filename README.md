@@ -8,52 +8,54 @@ Measuring Fairness in Ranked Results: An Analytical and Empirical. https://githu
 A Next Basket Recommendation Reality Check. https://github.com/liming-7/A-Next-Basket-Recommendation-Reality-Check
 
 Based on the above work, we additionally:
-* Repreprocess and resplit three datasets.
-* Tune the hyperparameters of NBR methods and run each method five times using five fixed random seed.
-* Evaluate the performance of NBR methods using seven fairness metrics and three accuracy metrics.
+* Repreprocess and resplit 3 datasets.
+* Tune the hyperparameters of NBR methods and run each method 5 times using 5 fixed random seed.
+* Evaluate the performance of NBR methods using 7 fairness metrics and 3 accuracy metrics.
 * Investigate the sensitivity of fairness metrics with respective to basket size, position weighting models and user repeat purchase behavior.
 
 
 ## Required packages
-To run our data preprocessing, evaluation scripts, Pandas, Numpy and Python >= 3.6 are required.
+To run our data preprocessing and evaluation scripts, Pandas, Numpy and Python >= 3.6 are required.
 
-To run the pubished methods' code, you can go to the original repository and check the required packages.
+To run the pubished NBR methods' code, please go to the original repository and check the required packages.
+
 ## Contents of this repository
 * Source code and datasets.
 * Descriptions of different dataset format.
-* Pipelines about how to run and get results.
-* A PDF file with the additional plots.
+* Pipeline: data preprocessing - run NBR methods - fairness evaluation.
+* A PDF file with the additional figures.
 
-## Structure
-* preprocess: contains the script of dataset preprocessing. 
+## Code structure
+* preprocess: contains the script of dataset preprocessing and splitting. 
 * csvdata: contains the .csv format dataset after preprocessing.
 * jsondata: contains the .json format dataset after preprocessing, history baskets sequence and future basket are stored seperately.
 * mergedata: contains the .json format dataset after preprocessing, history baskets sequence and future basket are stored together.
 * methods: contains the source code of different NBR methods and the original url repository link of these methods.
 * evaluation: scripts for evaluation.
-    * fair_metrics: the fair ranking metrics.
+    * fair_metrics: the fairness metrics.
     * metrics.py: the accuracy metrics.
     * model_performance.py: evaluate the fairness and accuracy of recommendation results.
-* appendix: contains a PDF file with the additional plots.
+* appendix: contains a PDF file with the additional figures.
 
 ## Pipeline
-* Step 1. Select the different types of preprossed datasets according to different methods. (Edit the entry or put datasets at the corresponding folder.)
-* Step 2. Train the model and save the model. (Note that we use the original implementations of the authors, so we provide the original repository links, which contain the instructions of the environment setting, how to run each method, etc. We also provide our additional instructions in the following section, which can make the running easier.)
+* Step 1. Preprocess and split the datasets. Generate different types of preprocessed datasets for different NBR methods.
+* Step 2. Train the model and save the model. (Note that we use the original implementations of the authors, so we provide the original repository links, which contain the instructions of the environment setting, how to run each method, etc. We also provide our additional instructions and hyperparameters in the following section, which can make the running easier.)
 * Step 3. Generate the predicted results via the trained model and save the results file.
 * Step 4. Use the evaluation scripts to get the performance results.
 
 ## Dataset 
 ### Preprocessing
-We provide the scripts of preprocessing, and the preprocessed dataset with different formats, which can be used directly.
-If you want to preprocess the dataset yourself, you can download the dataset from the following urls:
+We provide the scripts of preprocessing, and the preprocessed dataset with different formats (csvdata, jsondata, mergedata), which can be used directly.
+If you want to preprocess the dataset yourself, you can download the dataset from the following urls and put them into the "rawdata/{dataset}" folder.
 * Instacart: https://www.kaggle.com/c/instacart-market-basket-analysis/data
 * Dunnhumby: https://www.dunnhumby.com/source-files/
 * Tafeng: https://www.kaggle.com/datasets/chiranjivdas09/ta-feng-grocery-dataset
 
 
 ### Format description of preprocessed dataset
-* dataset: --> G-TopFreq, P-TopFreq, GP-TopFreq, ReCANet
-> csv format
+* csvdata: --> G-TopFreq, P-TopFreq, GP-TopFreq, ReCANet
+> user_id, order_number, item_id, basket_id
+
 * jsondata: --> TIFUKNN, DNNTSP, DREAM
 
 > history data: {uid1: [[-1], basket, basket, ..., [-1]], uid2:[[-1], basket, basket, ..., [-1]], ... }
@@ -64,7 +66,8 @@ If you want to preprocess the dataset yourself, you can download the dataset fro
 
 > {uid1: [basket, basket, ..., basket], uid2: [basket, basket, ..., basket], ...}
 
-* Predicted results:
+### Format description of predicted results
+* Predicted items:
 
 > {uid1: [item, item, ..., item], uid2: [item, item, ..., item], ...}
 
@@ -81,7 +84,7 @@ Our approach to reproducibility is to rely as much as possible on the artifacts 
 * UP-CF@r: https://github.com/MayloIFERR/RACF
 * ReCANet: https://github.com/mzhariann/recanet
 
-We also provide our additional instructions if the original repository is not clear, as well as the parameters we use.
+We also provide our additional instructions if the original repository is not clear, as well as the hyperparameters we use.
 
 
 ### G-TopFreq, P-TopFreq, GP-TopFreq
