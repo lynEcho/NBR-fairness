@@ -1,11 +1,18 @@
 # Source Code and Appendix for "Measuring Item Fairness in Next Basket Recommendation: A Reproducibility Study"
-This paper reproduces the fairness metrics implementation and empirical experiments in https://dl.acm.org/doi/abs/10.1145/3477495.3532018 to investigate whether the lessons about fairness metrics could be generalized to next basket recommendation.
+This paper reproduces the fairness metrics implementation and empirical experiments in "Measuring Fairness in Ranked Results: An Analytical and Empirical" https://dl.acm.org/doi/abs/10.1145/3477495.3532018 to investigate whether the lessons about fairness metrics could be generalized to next basket recommendation (NBR).
 
 This repository is built based on the following repositories:
 
 Measuring Fairness in Ranked Results: An Analytical and Empirical. https://github.com/BoiseState/rank-fairness-metrics
 
-A-Next-Basket-Recommendation-Reality-Check. https://github.com/liming-7/A-Next-Basket-Recommendation-Reality-Check
+A Next Basket Recommendation Reality Check. https://github.com/liming-7/A-Next-Basket-Recommendation-Reality-Check
+
+Based on the above work, we additionally:
+* Repreprocess and resplit three datasets.
+* Tune the hyperparameters of NBR methods and run each method five times using five fixed random seed.
+* Evaluate the performance of NBR methods using seven fairness metrics and three accuracy metrics.
+* Investigate the sensitivity of fairness metrics with respective to basket size, position weighting models and user repeat purchase behavior.
+
 
 ## Required packages
 To run our data preprocessing, evaluation scripts, Pandas, Numpy and Python >= 3.6 are required.
