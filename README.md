@@ -143,16 +143,18 @@ python pred_results.py --dataset instacart --number 0 --best_model_path XXX
 Note, DNNTSP will save several models during the training, an epoch model will be saved if it has higher performance than previous epoch, so XXX is the path of the last model saved during the training.
 
 Predicted file name: {dataset}_pred{number}.json, {dataset}_rel{number}.json
+
+
 ### UP-CF
 UP-CF is under the folder "methods/upcf".
 * Step 1: Copy the dataset to its folder, and check the dataset path and keyset path.
 * Step 2: Predict and save the results using the following commands:
 ```
-python racf.py --dataset dunnhumby --foldk 0 --recency 25 --asymmetry 0.25 --locality 5
+python racf.py --dataset dunnhumby --recency 25 --asymmetry 0.25 --locality 5 --seed 12345 --number 0
 ...
-python racf.py --dataset tafeng --foldk 0 --recency 10 --asymmetry 0.25 --locality 1
+python racf.py --dataset tafeng --recency 10 --asymmetry 0.25 --locality 1 --seed 12345 --number 0
 ...
-python racf.py --dataset instacart --foldk 0 --recency 5 --asymmetry 0.25 --locality 5
+python racf.py --dataset instacart --recency 5 --asymmetry 0.25 --locality 5 --seed 12345 --number 0
 ...
 ``` 
 Predicted file name: {dataset}_pred{number}.json, {dataset}_rel{number}.json
@@ -162,18 +164,19 @@ TIFUKNN is under the folder "methods/tifuknn"
 * Step 1: Predict and save the results using the following commands:
 ```
 cd tifuknn
-python tifuknn_new.py ../../jsondata/dunnhumby_history.json ../../jsondata/dunnhumby_future.json ../../keyset/dunnhumby_keyset_0.json 900 0.9 0.6 0.2 3 20
+python tifuknn_new.py ../jsondata/dunnhumby_history.json ../jsondata/dunnhumby_future.json ../keyset/dunnhumby_keyset_0.json 100 0.9 0.9 0.1 7 20 0
 ...
-python tifuknn_new.py ../../jsondata/tafeng_history.json ../../jsondata/tafeng_future.json ../../keyset/tafeng_keyset_0.json 300 0.9 0.7 0.7 7 20
+python tifuknn_new.py ../jsondata/tafeng_history.json ../jsondata/tafeng_future.json ../keyset/tafeng_keyset_0.json 300 0.9 0.9 0.1 11 20 0
 ...
-python tifuknn_new.py ../../jsondata/instacart_history.json ../../jsondata/instacart_future.json ../../keyset/instacart_keyset_0.json 900 0.9 0.7 0.9 3 20
+python tifuknn_new.py ../jsondata/instacart_history.json ../jsondata/instacart_future.json ../keyset/instacart_keyset_0.json 900 0.9 0.6 0.7 3 20 0
 ```
-Predicted file name: {dataset}_pred{foldk}.json
+Predicted file name: {dataset}_pred.json, {dataset}_rel.json
+
 
 ## Evaluation 
-Once we got the reommended basket of the model/algorithm on all datasets, you can use our scripts in the evalution folder to evaluate performance w.r.t. repetition and exploration.
+Once we got the reommended basket of the model/algorithm on all datasets, you can use our scripts in the evalution folder to evaluate fairness and accuracy of these NBR methods.
 
-Note that, each method will save their results to their own pred folder. 
+Note that, each method will save their results to their own results folder. 
 
 ### Performance
 
@@ -181,19 +184,11 @@ Note that, each method will save their results to their own pred folder.
 * Step 2: Evaluate the performance using the following commands:
 ```
 cd evaluation
-python model_performance.py --pred_folder XXX --fold_list [0, 1, 2, ...]
+
+python model_performance.py --pred_folder XXX --number_list 01234 --method XXX
+
 ```
-XXX is the folder where you put the predicted baskets, fold_list requires a list of all the keyset files you use in the experiments.
+XXX is the folder where you put the predicted baskets, number_list corresponds to five experiments using five seed.
 
-The results will be printed out in the terminal and saved to "eval_results.txt".
+The results will be printed out in the terminal and saved to "eval_{dataset}.txt".
 
-### Performance gain
-* Step 1: Check the dataset, keyset, pred_file path in the code.
-* Step 2: Evaluate the performance using the following commands:
- ```
-cd evaluation
-python performance_gain.py --pred_folder XXX --fold_list [0, 1, 2, ...]
-```
-XXX is the folder where you put the predicted baskets, fold_list requires a list of all the keyset files you use in the experiments.
-
-The results will be printed out in the terminal.
