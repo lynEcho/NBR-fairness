@@ -164,18 +164,18 @@ python pred_results.py --dataset instacart --number 0 --best_model_path XXX
 Note, DNNTSP will save several models during the training, an epoch model will be saved if it has higher performance than previous epoch, so XXX is the path of the last model saved during the training.
 
 Predicted file name: {dataset}_pred{number}.json, {dataset}_rel{number}.json
-stop here
+
 
 ### UP-CF
 UP-CF is under the folder "methods/upcf".
-* Step 1: Copy the dataset to its folder, and check the dataset path and keyset path.
+* Step 1: Check the dataset path and keyset path.
 * Step 2: Predict and save the results using the following commands:
 ```
+python racf.py --dataset instacart --recency 5 --asymmetry 0.25 --locality 5 --seed 12345 --number 0
+...
 python racf.py --dataset dunnhumby --recency 25 --asymmetry 0.25 --locality 5 --seed 12345 --number 0
 ...
 python racf.py --dataset tafeng --recency 10 --asymmetry 0.25 --locality 1 --seed 12345 --number 0
-...
-python racf.py --dataset instacart --recency 5 --asymmetry 0.25 --locality 5 --seed 12345 --number 0
 ...
 ``` 
 Predicted file name: {dataset}_pred{number}.json, {dataset}_rel{number}.json
@@ -184,12 +184,12 @@ Predicted file name: {dataset}_pred{number}.json, {dataset}_rel{number}.json
 TIFUKNN is under the folder "methods/tifuknn"
 * Step 1: Predict and save the results using the following commands:
 ```
-cd tifuknn
-python tifuknn_new.py ../jsondata/dunnhumby_history.json ../jsondata/dunnhumby_future.json ../keyset/dunnhumby_keyset_0.json 100 0.9 0.9 0.1 7 20 0
+python tifuknn_new.py ../jsondata/instacart_history.json ../jsondata/instacart_future.json ../keyset/instacart_keyset.json 900 0.9 0.6 0.7 3 20 0
 ...
-python tifuknn_new.py ../jsondata/tafeng_history.json ../jsondata/tafeng_future.json ../keyset/tafeng_keyset_0.json 300 0.9 0.9 0.1 11 20 0
+python tifuknn_new.py ../jsondata/dunnhumby_history.json ../jsondata/dunnhumby_future.json ../keyset/dunnhumby_keyset.json 100 0.9 0.9 0.1 7 20 0
 ...
-python tifuknn_new.py ../jsondata/instacart_history.json ../jsondata/instacart_future.json ../keyset/instacart_keyset_0.json 900 0.9 0.6 0.7 3 20 0
+python tifuknn_new.py ../jsondata/tafeng_history.json ../jsondata/tafeng_future.json ../keyset/tafeng_keyset.json 300 0.9 0.9 0.1 11 20 0
+...
 ```
 Predicted file name: {dataset}_pred.json, {dataset}_rel.json
 
