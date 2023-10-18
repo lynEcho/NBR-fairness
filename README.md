@@ -9,7 +9,7 @@ A Next Basket Recommendation Reality Check. https://github.com/liming-7/A-Next-B
 
 Based on the above work, we additionally:
 * Repreprocess and resplit 3 datasets.
-* Tune the hyperparameters of NBR methods and run each method 5 times using 5 fixed random seed.
+* Tune the hyperparameters of NBR methods and run methods 5 times using 5 fixed random seed.
 * Evaluate the performance of NBR methods using 7 fairness metrics and 3 accuracy metrics.
 * Investigate the sensitivity of fairness metrics with respective to basket size, position weighting models and user repeat purchase behavior.
 
@@ -86,6 +86,8 @@ Our approach to reproducibility is to rely as much as possible on the artifacts 
 
 We also provide our additional instructions if the original repository is not clear, as well as the hyperparameters we use.
 
+We set five random seed: 12345, 12321, 54321, 66688, 56789. And the corresponding number of the predicted files are 0, 1, 2, 3, 4.
+For G-TopFreq, P-TopFreq, GP-TopFreq, TIFUKNN, the predicted results of each run are same and not influenced by the random seed. Therefore, we only keep one set of predicted files with number 0.
 
 ### G-TopFreq, P-TopFreq, GP-TopFreq
 Three frequency based methods are under the folder "methods/g-p-gp-topfreq".
@@ -101,7 +103,7 @@ python gp_topfreq.py --dataset dunnhumby
 ```
 Predicted files are stored under folder: "g_top_results", "p_top_results", "gp_top_results".
 
-Predicted file name: {dataset}_pred.json, {dataset}_rel.json
+Predicted file name: {dataset}_pred0.json, {dataset}_rel0.json
 
 ### Dream
 Dream is under the folder "methods/dream".
@@ -191,13 +193,26 @@ python tifuknn_new.py ../jsondata/dunnhumby_history.json ../jsondata/dunnhumby_f
 python tifuknn_new.py ../jsondata/tafeng_history.json ../jsondata/tafeng_future.json ../keyset/tafeng_keyset.json 300 0.9 0.9 0.1 11 20 0
 ...
 ```
-Predicted file name: {dataset}_pred.json, {dataset}_rel.json
+Predicted file name: {dataset}_pred0.json, {dataset}_rel0.json
+
+
+### ReCANet
+ReCANet is under the folder "methods/recanet"
+* Step 1: Predict and save the results using the following commands:
+```
+python main.py -dataset instacart -user_embed_size 64 -item_embed_size 16 -hidden_size 64 -history_len 35 -number 0 -seed_value 12345
+...
+python main.py -dataset dunnhumby -user_embed_size 16 -item_embed_size 128 -hidden_size 64 -history_len 35 -number 0 -seed_value 12345 
+...
+python main.py -dataset tafeng -user_embed_size 64 -item_embed_size 64 -hidden_size 64 -history_len 35 -number 0 -seed_value 12345 
+...
+```
+Predicted file name: {dataset}_pred{number}.json, {dataset}_rel{number}.json
 
 
 ## Evaluation 
 Once we got the reommended basket of the model/algorithm on all datasets, you can use our scripts in the evalution folder to evaluate fairness and accuracy of these NBR methods.
 
-Note that, each method will save their results to their own results folder. 
 
 ### Performance
 
@@ -209,7 +224,7 @@ cd evaluation
 python model_performance.py --pred_folder XXX --number_list 01234 --method XXX
 
 ```
-XXX is the folder where you put the predicted baskets, number_list corresponds to five experiments using five seed.
+XXX is the folder where you put the predicted results, number_list corresponds to five numbers of experimental results using five seed.
 
-The results will be printed out in the terminal and saved to "eval_{dataset}.txt".
+The fairness and accuracy results will be saved to "results/eval_{dataset}.txt".
 
