@@ -94,11 +94,11 @@ Three frequency based methods are under the folder "methods/g-p-gp-topfreq".
 * Step 1: Check the file path of the dataset.
 * Step 2: Using the following commands to run each method:
 ```
-python g_topfreq.py --dataset dunnhumby 
+python g_topfreq.py --dataset instacart 
 ...
-python p_topfreq.py --dataset dunnhumby 
+python p_topfreq.py --dataset instacart
 ...
-python gp_topfreq.py --dataset dunnhumby
+python gp_topfreq.py --dataset instacart
 ...
 ```
 Predicted files are stored under folder: "g_top_results", "p_top_results", "gp_top_results".
@@ -186,11 +186,11 @@ Predicted file name: {dataset}_pred{number}.json, {dataset}_rel{number}.json
 TIFUKNN is under the folder "methods/tifuknn"
 * Step 1: Predict and save the results using the following commands:
 ```
-python tifuknn_new.py ../jsondata/instacart_history.json ../jsondata/instacart_future.json ../keyset/instacart_keyset.json 900 0.9 0.6 0.7 3 20 0
+python tifuknn_new.py ../jsondata/instacart_history.json ../jsondata/instacart_future.json ../keyset/instacart_keyset.json 900 0.9 0.6 0.7 3 20 
 ...
-python tifuknn_new.py ../jsondata/dunnhumby_history.json ../jsondata/dunnhumby_future.json ../keyset/dunnhumby_keyset.json 100 0.9 0.9 0.1 7 20 0
+python tifuknn_new.py ../jsondata/dunnhumby_history.json ../jsondata/dunnhumby_future.json ../keyset/dunnhumby_keyset.json 100 0.9 0.9 0.1 7 20 
 ...
-python tifuknn_new.py ../jsondata/tafeng_history.json ../jsondata/tafeng_future.json ../keyset/tafeng_keyset.json 300 0.9 0.9 0.1 11 20 0
+python tifuknn_new.py ../jsondata/tafeng_history.json ../jsondata/tafeng_future.json ../keyset/tafeng_keyset.json 300 0.9 0.9 0.1 11 20 
 ...
 ```
 Predicted file name: {dataset}_pred0.json, {dataset}_rel0.json
