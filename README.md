@@ -89,6 +89,8 @@ We also provide our additional instructions if the original repository is not cl
 We set five random seed: 12345, 12321, 54321, 66688, 56789. And the corresponding number of the predicted files are 0, 1, 2, 3, 4.
 For G-TopFreq, P-TopFreq, GP-TopFreq, TIFUKNN, the predicted results of each run are same and not influenced by the random seed. Therefore, we only keep one set of predicted files with number 0.
 
+Please create a folder "results" under each method to store the predicted files.
+
 ### G-TopFreq, P-TopFreq, GP-TopFreq
 Three frequency based methods are under the folder "methods/g-p-gp-topfreq".
 * Step 1: Check the file path of the dataset.
