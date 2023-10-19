@@ -213,7 +213,7 @@ Predicted file name: {dataset}_pred{number}.json, {dataset}_rel{number}.json
 
 
 ## Evaluation 
-Once we got the reommended basket of the model/algorithm on all datasets, you can use our scripts in the evalution folder to evaluate fairness and accuracy of these NBR methods. To apply to NBR scenarios, we made a little modification to the implementation from https://github.com/BoiseState/rank-fairness-metrics
+Once we got the reommended basket of the model/algorithm on all datasets, you can use our scripts in the evalution folder to evaluate fairness and accuracy of these NBR methods. To apply to NBR scenarios, we made a little modification to the fairness implementation from https://github.com/BoiseState/rank-fairness-metrics
 
 ### Performance
 
