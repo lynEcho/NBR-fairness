@@ -227,5 +227,5 @@ python model_performance.py --pred_folder XXX --number_list 01234 --method XXX
 ```
 XXX is the folder where you put the predicted results, number_list corresponds to five numbers of experimental results using five seed.
 
-The fairness and accuracy results will be saved to "results/eval_{dataset}.txt".
+The fairness and accuracy results will be saved to "results/eval_{method_name}.txt".
 
