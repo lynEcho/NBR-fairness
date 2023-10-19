@@ -78,10 +78,10 @@ If you want to preprocess the dataset yourself, you can download the dataset fro
 
 ## Guidelines for each method
 Our approach to reproducibility is to rely as much as possible on the artifacts provided by the user themselves, the following repositories have information about how to run each NBR method and the required packages.
+* UP-CF@r: https://github.com/MayloIFERR/RACF
+* TIFUKNN: https://github.com/HaojiHu/TIFUKNN
 * DREAM: https://github.com/yihong-chen/DREAM
 * DNNTSP: https://github.com/yule-BUAA/DNNTSP
-* TIFUKNN: https://github.com/HaojiHu/TIFUKNN
-* UP-CF@r: https://github.com/MayloIFERR/RACF
 * ReCANet: https://github.com/mzhariann/recanet
 
 We also provide our additional instructions if the original repository is not clear, as well as the hyperparameters we use.
@@ -105,6 +105,33 @@ python gp_topfreq.py --dataset instacart
 ```
 Predicted files are stored under folder: "g_top_results", "p_top_results", "gp_top_results".
 
+Predicted file name: {dataset}_pred0.json, {dataset}_rel0.json
+
+### UP-CF@r
+UP-CF@r is under the folder "methods/upcf".
+* Step 1: Check the dataset path and keyset path.
+* Step 2: Predict and save the results using the following commands:
+```
+python racf.py --dataset instacart --recency 5 --asymmetry 0.25 --locality 5 --seed 12345 --number 0
+...
+python racf.py --dataset dunnhumby --recency 25 --asymmetry 0.25 --locality 5 --seed 12345 --number 0
+...
+python racf.py --dataset tafeng --recency 10 --asymmetry 0.25 --locality 1 --seed 12345 --number 0
+...
+``` 
+Predicted file name: {dataset}_pred{number}.json, {dataset}_rel{number}.json
+
+### TIFUKNN
+TIFUKNN is under the folder "methods/tifuknn"
+* Step 1: Predict and save the results using the following commands:
+```
+python tifuknn_new.py ../jsondata/instacart_history.json ../jsondata/instacart_future.json ../keyset/instacart_keyset.json 900 0.9 0.6 0.7 3 20 
+...
+python tifuknn_new.py ../jsondata/dunnhumby_history.json ../jsondata/dunnhumby_future.json ../keyset/dunnhumby_keyset.json 100 0.9 0.9 0.1 7 20 
+...
+python tifuknn_new.py ../jsondata/tafeng_history.json ../jsondata/tafeng_future.json ../keyset/tafeng_keyset.json 300 0.9 0.9 0.1 11 20 
+...
+```
 Predicted file name: {dataset}_pred0.json, {dataset}_rel0.json
 
 ### Dream
@@ -169,33 +196,6 @@ Note, DNNTSP will save several models during the training, an epoch model will b
 
 Predicted file name: {dataset}_pred{number}.json, {dataset}_rel{number}.json
 
-
-### UP-CF
-UP-CF is under the folder "methods/upcf".
-* Step 1: Check the dataset path and keyset path.
-* Step 2: Predict and save the results using the following commands:
-```
-python racf.py --dataset instacart --recency 5 --asymmetry 0.25 --locality 5 --seed 12345 --number 0
-...
-python racf.py --dataset dunnhumby --recency 25 --asymmetry 0.25 --locality 5 --seed 12345 --number 0
-...
-python racf.py --dataset tafeng --recency 10 --asymmetry 0.25 --locality 1 --seed 12345 --number 0
-...
-``` 
-Predicted file name: {dataset}_pred{number}.json, {dataset}_rel{number}.json
-
-### TIFUKNN
-TIFUKNN is under the folder "methods/tifuknn"
-* Step 1: Predict and save the results using the following commands:
-```
-python tifuknn_new.py ../jsondata/instacart_history.json ../jsondata/instacart_future.json ../keyset/instacart_keyset.json 900 0.9 0.6 0.7 3 20 
-...
-python tifuknn_new.py ../jsondata/dunnhumby_history.json ../jsondata/dunnhumby_future.json ../keyset/dunnhumby_keyset.json 100 0.9 0.9 0.1 7 20 
-...
-python tifuknn_new.py ../jsondata/tafeng_history.json ../jsondata/tafeng_future.json ../keyset/tafeng_keyset.json 300 0.9 0.9 0.1 11 20 
-...
-```
-Predicted file name: {dataset}_pred0.json, {dataset}_rel0.json
 
 
 ### ReCANet
