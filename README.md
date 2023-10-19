@@ -9,7 +9,7 @@ A Next Basket Recommendation Reality Check. https://github.com/liming-7/A-Next-B
 
 Based on the above work, we additionally:
 * Repreprocess and resplit 3 datasets.
-* Tune the hyperparameters of NBR methods and run methods 5 times using 5 fixed random seed.
+* Tune the hyperparameters of NBR methods and run methods 5 times using 5 random seed.
 * Evaluate the performance of NBR methods using 7 fairness metrics and 3 accuracy metrics.
 * Investigate the sensitivity of fairness metrics with respective to basket size, position weighting models and user repeat purchase behavior.
 
